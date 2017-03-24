@@ -7,7 +7,7 @@ Statistics::Statistics(unsigned sample_size){
   std::normal_distribution<double> normal(1.8,0.07);
   //Saves samples in the sample vector. Samples are in the format i.dd, 
   //e.g. 1.85 
-  for (int i = 0; i < sample_size; i++)
+  for (unsigned i = 0; i < sample_size; i++)
     sample.push_back(std::round(normal(rng)*100) / 100);
   //Here the sample vector is sorted in order to compute the median
   std::sort(sample.begin(), sample.end());
@@ -40,10 +40,10 @@ void Statistics::compute_stats_concurrent() {
   auto start = system_clock::now();
   //Four threads are spawn to concurrently compute the mean, the media, the 
   //mode, and the variance
-  thread thmean(compute_mean, (*this));
-  thread thmedian(compute_median, (*this));
-  thread thmode(compute_mode, (*this));
-  thread thvariance(compute_variance, (*this));
+  thread thmean(&Statistics::compute_mean, ref((*this)));
+  thread thmedian(&Statistics::compute_median, ref((*this)));
+  thread thmode(&Statistics::compute_mode, ref((*this)));
+  thread thvariance(&Statistics::compute_variance, ref((*this)));
   //Don't forget join the threads
   thmean.join();
   thmedian.join();

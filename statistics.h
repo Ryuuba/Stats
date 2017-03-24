@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <cmath>
 #include <unordered_map>
+#include <functional>
 
 using std::thread;
 using std::vector;
@@ -15,6 +16,8 @@ using std::chrono::duration_cast;
 using std::unordered_map;
 using std::cout;
 using std::endl;
+using std::function;
+using std::ref;
 
 class Statistics {
 private:
